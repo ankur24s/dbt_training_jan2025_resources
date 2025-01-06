@@ -1,4 +1,5 @@
 **-- Use an admin role**
+
 USE ROLE ACCOUNTADMIN;
 
 **-- Create the `transform` role**
