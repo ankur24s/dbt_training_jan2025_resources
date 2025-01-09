@@ -1,0 +1,30 @@
+Sources and Seeds
+
+FULL MOON DATES CSV
+
+Download the CSV from the lesson's Resources section, or download it from the following
+S3 location:
+https://dbtlearn.s3.us-east-2.amazonaws.com/seed_full_moon_dates.csv
+
+Then place it to the seeds folder
+If you download from S3 on a Mac/Linux, can you import the csv straight to your seed folder
+by executing this command:
+
+
+CONTENTS OF MODELS/MART/FULL_MOON_REVIEWS.SQL
+
+{{ config(materialized = 'table',) }}
+
+full_moon_dates AS (
+ SELECT * FROM {{ ref('seed_full_moon_dates') }}
+)
+SELECT r.* , CASE
+ WHEN fm.full_moon_date IS NULL THEN 'not full moon'
+ ELSE 'full moon'
+ END AS is_full_moon
+FROM
+ fct_reviews
+ r
+ LEFT JOIN full_moon_dates
+ fm
+ ON (TO_DATE(r.review_date) = DATEADD(DAY, 1, fm.full_moon_date)
