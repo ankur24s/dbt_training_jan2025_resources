@@ -151,3 +151,33 @@ select * from int.snapshot.listings_snapshot where listing_id = 40600;
 update  raw.airbnb.raw_listings set updated_at  = '2023-01-01',ROOM_TYPE = 'Entire Home'  where id = 40600;
 --now run the command "dbt build -m +listings_snapshot" -- build to run both snapshot and upstream dependent models
 select * from int.snapshot.listings_snapshot where listing_id = 40600;
+
+---- Add dbt_valid_to_current:
+
+{% snapshot listings_snapshot %}
+	{{
+	config(
+		database = 'int',
+		schema = 'snapshot',
+		unique_key = 'listing_id',
+		strategy = 'timestamp',
+		updated_at='updated_at',
+		dbt_valid_to_current = 'to_date('9999-12-31')'
+		invalidate_hard_deletes =True
+		)
+	}}
+
+SELECT
+listing_id, 
+listing_name, 
+listing_url, 
+room_type, 
+minimum_nights, 
+host_id,
+price_str, 
+created_at, 
+updated_at
+FROM
+{{ref('src_listings')}}
+
+{% endsnapshot %}
