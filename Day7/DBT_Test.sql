@@ -54,8 +54,18 @@ limit 10
 
 --Assignment instructions
 
--- Create a singular test in tests/consistent_created_at.sql that checks that there is no review date that is submitted before its listing was created: Make sure that every review_date in fct_reviews is more recent than the associated created_at in dim_listings_cleansed.
+-- consistent_created_at.sql
+
+-- Create a singular test in tests/consistent_created_at.sql that 
+
+checks that there is no review date that is submitted before its listing was created: Make sure that every review_date in fct_reviews is more recent than the associated created_at in dim_listings_cleansed.
 
 
 --Please provide the source code of the test.
 
+
+solution:
+SELECT * FROM {{ ref('dim_listings_cleansed') }} l
+INNER JOIN {{ ref('fct_reviews') }} r
+USING (listing_id)
+WHERE l.created_at >= r.review_date
