@@ -1,0 +1,16 @@
+version: 2
+exposures:
+  - name: Executive Dashboard
+    label: Executive Dashboard
+    type: dashboard
+    maturity: low
+    url: https://058bdcea.us1a.app.preset.io/superset/dashboard/8/?native_filters_key=IDUJGfQVec7eHEas5xe9DG1d2aLRwZW-4vR1qlzqYAm9anGXBywNIoLU1XD82_sC
+    description: Executive Dashboard about Airbnb listings and hosts
+
+    depends_on:
+      - ref('dim_listings_w_hosts')
+      - ref('full_moon_reviews')
+ 
+    owner:
+      name: Ankur Sahu
+      email: ankur@gmail.com
