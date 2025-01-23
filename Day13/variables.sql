@@ -11,4 +11,6 @@
 
 
 
-{# dbt run-operation learn_variables#}
+{# dbt run-operation learn_variables  --vars "{user_name: ankur}"#}
+
+
