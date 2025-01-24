@@ -48,10 +48,7 @@ Adding expect_column_distinct_count_to_equal:
             tests:
               - dbt_expectations.expect_column_distinct_count_to_equal:
                   value: 4
-          - name: price
-            tests:
-              - dbt_expectations.expect_column_values_to_match_regex:
-                  regex: "^\\\\$[0-9][0-9\\\\.]+$"
+
         
       - name: reviews
         identifier: raw_reviews
@@ -63,15 +60,13 @@ add in schema.yml
     tests:
       - dbt_expectations.expect_table_row_count_to_equal_other_table:
           compare_model: source('raw_airbnb', 'listings')
+		  
     columns:
       - name: price
         tests:
           - dbt_expectations.expect_column_values_to_be_of_type:
               column_type: number
-          - dbt_expectations.expect_column_quantile_values_to_be_between:
-              quantile: .99
-              min_value: 50
-              max_value: 500
+          
           - dbt_expectations.expect_column_max_to_be_between:
               max_value: 5000
               config:
